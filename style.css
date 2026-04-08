@@ -333,6 +333,11 @@ body {
     font-family: inherit;
 }
 
+/* ── MOBILE FIGURES ── */
+.mobile-fig {
+    display: none; /* hidden on desktop */
+}
+
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--fg); }
@@ -374,6 +379,24 @@ body {
     }
 
     #right-col { display: none; }
+
+    /* Show figures inline on mobile */
+    .mobile-fig {
+        display: block;
+        margin: 16px 0;
+    }
+    .mobile-fig img {
+        display: block;
+        width: 100%;
+        height: auto;
+    }
+    span.mobile-caption {
+        display: block;
+        font-size: 12px;
+        line-height: 1.3;
+        padding-top: 6px;
+        color: var(--fg);
+    }
 
     /* sticky chapter title sits flush below the bar — no gap */
     .ch-head {
