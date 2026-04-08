@@ -206,7 +206,6 @@ body {
     margin-bottom: 0;
 }
 .tb p:first-child { text-indent: 0; }
-/* First p of every tb after the first tb gets indent to mark the break */
 .tb + .tb p:first-child { text-indent: 3em; }
 
 /* ── FIGURE REFERENCES (inline in text) ── */
@@ -335,7 +334,7 @@ body {
 
 /* ── MOBILE FIGURES ── */
 .mobile-fig {
-    display: none; /* hidden on desktop */
+    display: none;
 }
 
 ::-webkit-scrollbar { width: 3px; }
@@ -382,7 +381,7 @@ body {
 
     /* Show figures inline on mobile */
     .mobile-fig {
-        display: block;
+        display: block !important;
         margin: 16px 0;
     }
     .mobile-fig img {
@@ -390,12 +389,14 @@ body {
         width: 100%;
         height: auto;
     }
-    span.mobile-caption {
+    .mobile-fig::after {
+        content: attr(data-caption);
         display: block;
         font-size: 12px;
         line-height: 1.3;
         padding-top: 6px;
         color: var(--fg);
+        font-family: 'Times New Roman', Times, serif;
     }
 
     /* sticky chapter title sits flush below the bar — no gap */
