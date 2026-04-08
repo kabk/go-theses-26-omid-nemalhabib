@@ -378,6 +378,7 @@ body {
     }
 
     #right-col { display: none; }
+    #tool-c     { display: none; }
 
     /* Show figures inline on mobile */
     .mobile-fig {
