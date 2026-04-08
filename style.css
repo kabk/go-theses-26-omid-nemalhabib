@@ -47,7 +47,10 @@ body {
     color: var(--fg);
     cursor: pointer;
     padding: 0 0 0 6px;
+    margin: 0;
     line-height: 1.1;
+    -webkit-appearance: none;
+    appearance: none;
     transition: background 0.25s, color 0.25s;
 }
 #theme-btn:hover { opacity: 0.4; }
@@ -404,6 +407,8 @@ body {
     .ch-head {
         top: calc(var(--fs) * 1.1 + var(--pad) * 2);
         background: var(--bg);
+        margin-top: -1px;
+        padding-top: 1px;
     }
 
     .ch-text {
