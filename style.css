@@ -308,7 +308,58 @@ body {
 #theme-btn {
     visibility: hidden;
 }
-/* ── FIGURE ITEMS (right col, scroll parallax) ── */
+/* ── DRAWING OVERLAYS ── */
+#drawing-overlays {
+    pointer-events: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 45;
+}
+.drawing-line {
+    position: absolute;
+    width: 320px;
+    height: auto;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    mix-blend-mode: multiply;
+}
+body.dark .drawing-line {
+    mix-blend-mode: screen;
+    filter: invert(1);
+}
+.drawing-line.visible { opacity: 1; }
+
+@media (max-width: 760px) {
+    #drawing-overlays { display: none; }
+}
+#archive-frame-wrap {
+    position: absolute;
+    left: var(--pad);
+    right: var(--pad);
+    bottom: var(--pad);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 0.4s ease;
+}
+#archive-frame-wrap.visible {
+    opacity: 1;
+}
+#archive-frame {
+    display: block;
+    width: 100%;
+    height: 340px;
+    border: none;
+    background: var(--bg);
+}
+#archive-frame-wrap .fig-caption a {
+    color: var(--fg);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+#archive-frame-wrap .fig-caption a:hover {
+    opacity: 0.4;
+}
 #fig-items {
     position: absolute;
     top: 0; left: 0; right: 0;

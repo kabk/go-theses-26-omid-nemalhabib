@@ -696,11 +696,38 @@
                     <p class="fig-caption">Figure 42 — Part of the typographic-visual essay—testing, writing, repetitions.</p>
                 </div>
             </div>
+
+            <!-- Archive iframe -->
+            <div id="archive-frame-wrap">
+                <iframe id="archive-frame" src="https://strugglingwriting.omidnemalhabib.com/" title="Struggling Writing Archive" scrolling="yes" frameborder="0"></iframe>
+                <p class="fig-caption">Struggling Writing — Growing Archive. An ongoing online collection of process documentation, experiments, references, and workshop material that forms the grounding research behind this project. <a href="https://strugglingwriting.omidnemalhabib.com/" target="_blank" rel="noopener">Open archive ↗</a></p>
+            </div>
         </div>
     </div>
 
     <!-- tool-c: fixed overlay spanning mid+right columns -->
     <div id="tool-c"><img src="images/tool3.svg" alt="Tool 3"></div>
+
+    <!-- Drawing overlays: sketch lines appearing over the page -->
+    <div id="drawing-overlays">
+        <img class="drawing-line" id="drawing-1"  src="images/line1.svg"  alt="">
+        <img class="drawing-line" id="drawing-2"  src="images/line2.svg"  alt="">
+        <img class="drawing-line" id="drawing-3"  src="images/line3.svg"  alt="">
+        <img class="drawing-line" id="drawing-4"  src="images/line4.svg"  alt="">
+        <img class="drawing-line" id="drawing-5"  src="images/line5.svg"  alt="">
+        <img class="drawing-line" id="drawing-6"  src="images/line6.svg"  alt="">
+        <img class="drawing-line" id="drawing-7"  src="images/line7.svg"  alt="">
+        <img class="drawing-line" id="drawing-8"  src="images/line8.svg"  alt="">
+        <img class="drawing-line" id="drawing-9"  src="images/line9.svg"  alt="">
+        <img class="drawing-line" id="drawing-10" src="images/line10.svg" alt="">
+        <img class="drawing-line" id="drawing-11" src="images/line11.svg" alt="">
+        <img class="drawing-line" id="drawing-12" src="images/line12.svg" alt="">
+        <img class="drawing-line" id="drawing-13" src="images/line13.svg" alt="">
+        <img class="drawing-line" id="drawing-14" src="images/line14.svg" alt="">
+        <img class="drawing-line" id="drawing-15" src="images/line15.svg" alt="">
+        <img class="drawing-line" id="drawing-16" src="images/line16.svg" alt="">
+        <img class="drawing-line" id="drawing-17" src="images/line17.svg" alt="">
+    </div>
 
 </div><!-- /page -->
 
@@ -1116,6 +1143,100 @@ fontBtns.forEach(btn => {
     window.addEventListener('load',   () => { triggers = null; updateFigs(); });
     requestAnimationFrame(updateFigs);
 })();
+
+// ── DRAWING OVERLAYS ──
+// 17 SVG sketch lines appear one by one from ch1 to ch10.
+// Each fades in when scrolled into its trigger zone, fades out when leaving.
+// Works on scroll down AND back up.
+
+(function() {
+    const lines = document.querySelectorAll('.drawing-line');
+    if (!lines.length) return;
+
+    const positions = [
+        { left: '8vw',  top: '20vh' },
+        { left: '55vw', top: '65vh' },
+        { left: '15vw', top: '70vh' },
+        { left: '48vw', top: '15vh' },
+        { left: '6vw',  top: '45vh' },
+        { left: '62vw', top: '40vh' },
+        { left: '5vw', top: '25vh' },
+        { left: '50vw', top: '50vh' },
+        { left: '10vw', top: '60vh' },
+        { left: '58vw', top: '20vh' },
+        { left: '25vw', top: '80vh' },
+        { left: '5vw',  top: '35vh' },
+        { left: '45vw', top: '55vh' },
+        { left: '18vw', top: '10vh' },
+        { left: '60vw', top: '50vh' },
+        { left: '12vw', top: '55vh' },
+        { left: '52vw', top: '30vh' },
+    ];
+
+    lines.forEach((el, i) => {
+        el.style.left = positions[i % positions.length].left;
+        el.style.top  = positions[i % positions.length].top;
+    });
+
+    const TOTAL   = lines.length;
+    const WINDOW  = 2200; // px of scroll over which each line is visible
+
+    function getTriggers() {
+        const ch1  = document.getElementById('ch1');
+        const ch10 = document.getElementById('ch10');
+        if (!ch1 || !ch10) return [];
+        const start = ch1.offsetTop;
+        const end   = ch10.offsetTop + ch10.offsetHeight * 0.8;
+        const span  = end - start;
+        return Array.from({ length: TOTAL }, (_, i) => start + (span * i / (TOTAL - 1)));
+    }
+
+    function updateLines() {
+        const scrollY   = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const triggers  = getTriggers();
+
+        lines.forEach((el, i) => {
+            const trigAt = triggers[i];
+            if (!trigAt) return;
+
+            // Last line: appears at its trigger, stays until very end of page
+            if (i === lines.length - 1) {
+                if (scrollY >= trigAt && scrollY < maxScroll) {
+                    el.classList.add('visible');
+                } else {
+                    el.classList.remove('visible');
+                }
+                return;
+            }
+
+            // All other lines: visible within their scroll window
+            if (scrollY >= trigAt && scrollY < trigAt + WINDOW) {
+                el.classList.add('visible');
+            } else {
+                el.classList.remove('visible');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateLines, { passive: true });
+    requestAnimationFrame(updateLines);
+})();
+
+// ── ARCHIVE FRAME ──
+const archiveWrap = document.getElementById('archive-frame-wrap');
+if (archiveWrap) {
+    window.addEventListener('scroll', () => {
+        const bib = document.getElementById('bibliography');
+        if (!bib) return;
+        const bibMid = bib.offsetTop + bib.offsetHeight * 0.5;
+        if (window.scrollY > bibMid) {
+            archiveWrap.classList.add('visible');
+        } else {
+            archiveWrap.classList.remove('visible');
+        }
+    }, { passive: true });
+}
 
 // ── LAST EDIT DATE ──
 const lastEdit = document.getElementById('last-edit');
