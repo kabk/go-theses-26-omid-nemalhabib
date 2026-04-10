@@ -857,21 +857,21 @@ window.addEventListener('load', () => {
     const themeBtn = document.getElementById('theme-btn');
     if (themeBtn) setTimeout(() => { themeBtn.style.visibility = 'visible'; }, 300);
 
-    // 5. Asemic bt-lines — type char by char on load (replace CSS fade)
+    // 5. Asemic bt-lines — type char by char on load
     const btLines = document.querySelectorAll('.bt-line');
     btLines.forEach(el => {
         el.dataset.tw = el.textContent;
         el.textContent = '';
         el.style.opacity = '1';
-        el.style.animation = 'none'; // cancel CSS fade-in
+        el.style.animation = 'none';
+        el.style.visibility = 'visible'; // reveal now that content is empty
     });
-    // type "struggling" first, then "writing"
     const BT_SPEED = 55;
     function typeBt(idx) {
         if (idx >= btLines.length) return;
         twType(btLines[idx], BT_SPEED, () => setTimeout(() => typeBt(idx + 1), 120));
     }
-    setTimeout(() => typeBt(0), 1800); // after page settles
+    setTimeout(() => typeBt(0), 1800);
 });
 
 // ── SCROLL: asemic reverse/retype driven by scroll position ──
